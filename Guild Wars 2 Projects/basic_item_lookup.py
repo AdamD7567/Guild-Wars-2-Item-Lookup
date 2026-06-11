@@ -34,8 +34,8 @@ def lookup_by_id(item_id):
         print("Error ", response.status_code, ": Could not find that item.", )
         print("API message:", data.get("text", "Unknown error"))
 
-# Function that looks up the items buy and sell price on the Trading post
-# Takes in the item's ID and returns the current buy and sell price
+# Function that looks up the items buy and sell price on the Trading post.
+# Takes in the item's ID and returns the current buying/selling information.
 def lookup_prices(item_id):
 
     response = requests.get(f"https://api.guildwars2.com/v2/commerce/prices/{item_id}")
@@ -44,7 +44,8 @@ def lookup_prices(item_id):
     if response.status_code == 200:
         buy_price = data["buys"]["unit_price"]
         sell_price = data["sells"]["unit_price"]
-        return f"Buy price: {format_coins(buy_price)}\nSell price: {format_coins(sell_price)}"
+        spread_value = sell_price - buy_price
+        return f"Buy price: {format_coins(buy_price)}\nSell price: {format_coins(sell_price)}\nSpread: {format_coins(spread_value)}"
 
     else:
         print(
