@@ -74,7 +74,7 @@ cd "Guild-Wars-2-Projects/Basic-Item-Lookup"
 3. Install the required dependency:
 
 ```bash
-pip install requests
+pip install -r requirements.txt
 ```
 
 4. Run the program:

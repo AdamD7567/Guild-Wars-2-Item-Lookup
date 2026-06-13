@@ -5,9 +5,9 @@ import os
 def validate_input(item):
     if not item.isdigit():
         print("Please enter a numeric item ID.")
+        return False
 
-    else:
-        return True
+    return True
 
 # Function that takes a valid input and checks if the item exists.
 # Returns the item information for the input ID or an appropriate status code and message if invalid.
