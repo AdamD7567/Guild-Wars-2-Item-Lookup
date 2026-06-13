@@ -83,6 +83,16 @@ pip install -r requirements.txt
 python basic_item_lookup.py
 ```
 
+## Running Tests
+
+This project uses pytest for basic unit tests.
+
+To run the tests:
+
+```bash
+python -m pytest
+```
+
 
 ## Current Limitations
 
