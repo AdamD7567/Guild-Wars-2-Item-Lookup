@@ -1,3 +1,7 @@
+GENERAL TODOs — Small things for QoL and code quality
+Add retry logic for temporary API failures
+Replace print-based errors with logging later
+
 PHASE 4 — Favourite items
 Create a text file to store favourite item IDs
 Add an option to save the current item to favourites

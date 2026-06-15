@@ -104,7 +104,7 @@ python -m pytest
 
 ## Planned Features
 
-* Add better network error handling using `try`/`except`
+* Improve error handling with retry logic and logging
 * Save favourite item IDs locally
 * View saved favourite items and their current prices
 * Prevent duplicate favourite items

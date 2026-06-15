@@ -73,8 +73,17 @@ def make_api_request(url):
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
-        return response.json()
-    
+
+        # Check if response is actually JSON before parsing
+        if 'application/json' in response.headers.get('Content-Type', ''):
+            return response.json()
+        
+        else:
+            print("Error - response is not JSON.")
+            print(f"Content-Type: {response.headers.get('Content-Type')}")
+            print(f"Raw content: {response.text[:200]}")
+            return None
+
     except requests.exceptions.ConnectionError:
         print("Connection failed - could not reach the server.")
         return None
@@ -98,13 +107,14 @@ def make_api_request(url):
             print(f"HTTP Error {status_code}: Something went wrong with the request.")
 
         return None
+
+    except requests.exceptions.JSONDecodeError:
+        print("Invalid JSON response!")
+        print(f"Raw content received: {response.text[:200]}")
+        return None
     
     except requests.exceptions.RequestException as e:
         print(f"Unexpected request error: {e}")
-        return None
-    
-    except ValueError:
-        print("Error: The API response was not valid JSON.")
         return None
 
 
