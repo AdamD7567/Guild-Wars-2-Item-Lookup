@@ -53,6 +53,7 @@ This project helped me practise several important Python and software developmen
 * Using loops for repeated user interaction
 * Validating user input
 * Formatting raw API data into readable output
+* Handling API/network errors using try/except
 * Building a small project incrementally using TODOs
 
 One useful concept I learned was how to work with nested JSON. For example, Trading Post price data is returned as separate buy and sell sections when making the request, so the program needs to access nested values rather than assuming all data is at the top level.
@@ -99,7 +100,6 @@ python -m pytest
 * Items currently need to be searched by item ID
 * Item name search is not implemented yet
 * Some items may not be available on the Trading Post
-* Network error handling is planned but not fully implemented yet
 * Favourite item tracking is planned for a future version
 
 ## Planned Features
