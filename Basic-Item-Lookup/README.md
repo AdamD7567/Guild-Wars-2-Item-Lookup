@@ -7,6 +7,8 @@ I started this project as a personal Python refresher. I wanted to rebuild confi
 ## Features
 
 * Look up a Guild Wars 2 item by item ID
+* Search previously looked-up items by name using a local JSON cache
+* Automatically save looked-up item IDs and names locally for future searches
 * Display item information, including:
 
   * Name
@@ -20,7 +22,9 @@ I started this project as a personal Python refresher. I wanted to rebuild confi
   * Buy/sell spread
 * Format prices into gold, silver, and copper
 * Allow repeated searches without restarting the program
+* Allow users to press Enter to skip cached name search and search by ID instead
 * Validate user input before making API requests
+* Handle basic API/network errors using try/except
 
 ## Example Output
 
@@ -49,11 +53,14 @@ This project helped me practise several important Python and software developmen
 * Working with an external API
 * Reading and using JSON data
 * Accessing nested JSON values
+* Reading from and writing to local JSON files
+* Preventing duplicate entries in local JSON cache
 * Using functions to organise code
 * Using loops for repeated user interaction
 * Validating user input
 * Formatting raw API data into readable output
 * Handling API/network errors using try/except
+* Writing basic unit tests with pytest
 * Building a small project incrementally using TODOs
 
 One useful concept I learned was how to work with nested JSON. For example, Trading Post price data is returned as separate buy and sell sections when making the request, so the program needs to access nested values rather than assuming all data is at the top level.
@@ -97,21 +104,23 @@ python -m pytest
 
 ## Current Limitations
 
-* Items currently need to be searched by item ID
-* Item name search currently works for items that have already been looked up and saved in the local cache.
-* Some items may not be available on the Trading Post
+* Full Guild Wars 2 item-name search is not implemented yet.
+* Name search currently only works for items that have already been looked up and saved in the local JSON cache
+* Some itmes may not be available on the Trading Post
 * Favourite item tracking is planned for a future version
+* The project is currently contained in one Python file and may be refactored into separate modules later
 
 ## Planned Features
 
-* Improve error handling with retry logic and logging
-* Save favourite item IDs locally
-* View saved favourite items and their current prices
+* Add a proper favourites.json feature for intentionally saved favourite items
+* Allow users to view favourite items and fetch their current Trading Post prices
 * Prevent duplicate favourite items
 * Remove items from favourites
-* Add item name search using a local cache
+* Build a full item cache for searching all Guild Wars 2 item names
+* Improve error handling with retry logic and logging
 * Refactor the project into separate modules
-* Eventually build a simple frontend version
+* Eventually build a frontend version
+* Improve error handling with retry logic and logging
 
 ## Future Goal
 
