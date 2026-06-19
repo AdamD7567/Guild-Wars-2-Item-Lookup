@@ -1,5 +1,6 @@
 import requests
 import os
+import json
 
 # Function that validates that the user's input is a valid ID (digit)
 def validate_input(item):
@@ -34,6 +35,9 @@ def lookup_by_id(item_id):
     price_info = lookup_prices(item_id)
     if price_info is not None:
         print(price_info)
+
+    # Automatically add this item to the user's local cache for easier lookup later
+    add_item_to_cache(data)
     
 
 
@@ -116,6 +120,50 @@ def make_api_request(url):
     except requests.exceptions.RequestException as e:
         print(f"Unexpected request error: {e}")
         return None
+
+
+
+# Function that allows the user to add the currently searched item's name for name lookup later
+# Takes in the item_data when ID lookup occurs, reads the looked_up_items.json file, and then overwrites it with the new data.
+def add_item_to_cache(item_data):
+    
+    # Creating a dictionary containing just item ID and name
+    looked_up_item = {
+        "id" : item_data["id"],
+        "name" : item_data["name"]
+    }
+
+    # Establishing reusable path for easier code maintenance
+    file_path = "looked_up_items.json"
+
+    # Initialising a blank list as a temporary container for appending items.
+    item_list = []
+
+    # Reading existing data only if the file exists and has valid JSON
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r", encoding="utf-8") as read_file:
+                item_list = json.load(read_file)
+
+                # Checking that the file contents are formatted as an array.
+                if not isinstance(item_list, list):
+                    item_list = []
+
+        # Fallback if the file is empty or corrupted
+        except json.JSONDecodeError:
+            item_list = []
+
+    # Preventing duplicate entries for the same item ID
+    if any(item["id"] == looked_up_item["id"] for item in item_list):
+        return
+
+    # Appending the new item data
+    item_list.append(looked_up_item)
+    
+    # Overwriting the file with the updated list
+    with open(file_path, mode="w", encoding="utf-8") as write_file:
+        json.dump(item_list, write_file, indent=4)
+
 
 
 # TODO: Remove this when I move to frontend development.
