@@ -39,13 +39,13 @@ def lookup_by_name(item_name):
 
     # Looping through cache file to find a matching name (case-insensitive)
     for item in item_list:
-        if item["name"].lower() == item_name.lower():
+        if item["name"].lower() == item_name.strip().lower():
             print(f"Found in cache! Fetching data for ID: {item['id']}")
             lookup_by_id(str(item["id"]))
             return True
     
     # Item is not found
-    print("Item does not exist in the current cache.")
+    print("Item does not exist in the current cache.\n")
     return False
 
 
@@ -217,19 +217,21 @@ def main():
     while searching:
 
         # Allow user to attempt name lookup first
-        item_name = input("Enter the name of the item you are looking for: ")
+        item_name = input("Enter the name of the item you are looking for, or press Enter to search by ID: ")
 
-        # Checking if it exists first
+        # If the user entered a name, try to find it in the local cache
         found_in_cache = False
-        found_in_cache = lookup_by_name(item_name)
+        clear_console()
+        if item_name.strip() != "":
+            found_in_cache = lookup_by_name(item_name)
 
-        # Only ask for an ID if the item wasn't found in the local cache
+        # Only ask for an ID if the user skipped the name search OR the item name was not found in the local cache
         if not found_in_cache:
-
+            
             # Check that entered ID is valid
             valid = False
             while not valid:
-                input_item = input("Enter the ID of the item you are looking for: ")
+                input_item = input("Please enter the ID of the item you are looking for: ")
                 if validate_input(input_item):
                     valid = True
         
