@@ -98,7 +98,7 @@ python -m pytest
 ## Current Limitations
 
 * Items currently need to be searched by item ID
-* Item name search is not implemented yet
+* Item name search currently works for items that have already been looked up and saved in the local cache.
 * Some items may not be available on the Trading Post
 * Favourite item tracking is planned for a future version
 

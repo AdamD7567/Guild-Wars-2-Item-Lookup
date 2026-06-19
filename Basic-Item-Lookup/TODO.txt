@@ -1,5 +1,4 @@
 PHASE 4 — Favourite items
-Allow the user to search previously looked-up items by name
 Allow an option to save selected items to favourites
 Add an option to view favourite items
 Add an option to remove an item from favourites
@@ -25,3 +24,4 @@ Add functions for inserting, reading, updating, and deleting favourites
 Add a database setup script to create required tables
 Add optional price history tracking
 Connect frontend to backend/database later
+Build a full item cache for searching all GW2 item names

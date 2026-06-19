@@ -13,6 +13,42 @@ def validate_input(item):
 
 
 
+# Function that takes in a string and checks if it exists in the looked_up_items.json file.
+# Uses this data as a parameter for the lookup_by_id function as GW2 API does not support name lookup directly.
+def lookup_by_name(item_name):
+
+    # Establishing reusable path for easier code maintenance
+    file_path = "looked_up_items.json"
+
+    # Initialising a blank list as a temporary container for appending items.
+    item_list = []
+
+    # Reading existing data only if the file exists and has valid JSON
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r", encoding="utf-8") as read_file:
+                item_list = json.load(read_file)
+
+                # Checking that the file contents are formatted as an array.
+                if not isinstance(item_list, list):
+                    item_list = []
+
+        # Fallback if the file is empty or corrupted
+        except json.JSONDecodeError:
+            item_list = []
+
+    # Looping through cache file to find a matching name (case-insensitive)
+    for item in item_list:
+        if item["name"].lower() == item_name.lower():
+            print(f"Found in cache! Fetching data for ID: {item['id']}")
+            lookup_by_id(str(item["id"]))
+            return True
+    
+    # Item is not found
+    print("Item does not exist in the current cache.")
+    return False
+
+
 # Function that takes in a valid item ID to display item information.
 # Returns the item information for the input ID or an appropriate status code and message if it fails.
 def lookup_by_id(item_id):
@@ -180,16 +216,27 @@ def main():
     searching = True
     while searching:
 
-        # Check input is valid first
-        valid = False
-        while not valid:
-            input_item = input("Enter the ID of the item you are looking for: ")
-            if validate_input(input_item):
-                valid = True
-    
-        # Lookup item
-        lookup_by_id(input_item)
+        # Allow user to attempt name lookup first
+        item_name = input("Enter the name of the item you are looking for: ")
 
+        # Checking if it exists first
+        found_in_cache = False
+        found_in_cache = lookup_by_name(item_name)
+
+        # Only ask for an ID if the item wasn't found in the local cache
+        if not found_in_cache:
+
+            # Check that entered ID is valid
+            valid = False
+            while not valid:
+                input_item = input("Enter the ID of the item you are looking for: ")
+                if validate_input(input_item):
+                    valid = True
+        
+            # Lookup item via API and save it to cache
+            lookup_by_id(input_item)
+
+        # Allow user to end or continue search
         search_check = input("\nPress x to quit, or any other key to continue: ")
         if search_check.lower() == "x":
             print("Thank you for using the lookup service! Goodbye!")
