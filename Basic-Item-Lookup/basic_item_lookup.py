@@ -13,40 +13,21 @@ def validate_input(item):
 
 
 
-# Function that takes in a string and checks if it exists in the looked_up_items.json file.
-# Uses this data as a parameter for the lookup_by_id function as GW2 API does not support name lookup directly.
+# Function that takes in a string and checks if the item exists in the looked_up_items.json file.
+# Returns True or False for the main searching loop to determine if a successful search has occurred
 def lookup_by_name(item_name):
-
-    # Establishing reusable path for easier code maintenance
-    file_path = "looked_up_items.json"
-
-    # Initialising a blank list as a temporary container for appending items.
-    item_list = []
-
-    # Reading existing data only if the file exists and has valid JSON
-    if os.path.exists(file_path):
-        try:
-            with open(file_path, "r", encoding="utf-8") as read_file:
-                item_list = json.load(read_file)
-
-                # Checking that the file contents are formatted as an array.
-                if not isinstance(item_list, list):
-                    item_list = []
-
-        # Fallback if the file is empty or corrupted
-        except json.JSONDecodeError:
-            item_list = []
-
-    # Looping through cache file to find a matching name (case-insensitive)
-    for item in item_list:
-        if item["name"].lower() == item_name.strip().lower():
-            print(f"Found in cache! Fetching data for ID: {item['id']}")
-            lookup_by_id(str(item["id"]))
-            return True
     
-    # Item is not found
-    print("Item does not exist in the current cache.\n")
-    return False
+    item = find_item_in_cache(item_name)
+
+    # Item does not exist
+    if item is None:
+        print("Item does not exist in the current cache.")
+        return False
+
+    # Item exists
+    print(f"Found in cache! Fetching data for ID: {item['id']}")
+    lookup_by_id(str(item["id"]))
+    return True
 
 
 # Function that takes in a valid item ID to display item information.
@@ -161,16 +142,13 @@ def make_api_request(url):
 
 # Function that allows the user to add the currently searched item's name for name lookup later
 # Takes in the item_data when ID lookup occurs, reads the looked_up_items.json file, and then overwrites it with the new data.
-def add_item_to_cache(item_data):
+def add_item_to_cache(item_data, file_path="looked_up_items.json"):
     
     # Creating a dictionary containing just item ID and name
     looked_up_item = {
         "id" : item_data["id"],
         "name" : item_data["name"]
     }
-
-    # Establishing reusable path for easier code maintenance
-    file_path = "looked_up_items.json"
 
     # Initialising a blank list as a temporary container for appending items.
     item_list = []
@@ -202,8 +180,35 @@ def add_item_to_cache(item_data):
 
 
 
-# TODO: Remove this when I move to frontend development.
+# Helper function that checks whether an item exists in the local cache
+# Takes in the item name and returns the item dictionary if found
+def find_item_in_cache(item_name, file_path="looked_up_items.json"):
+    
+    item_list = []
+    
+    # Checking that the file path exists
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r", encoding="utf-8") as read_file:
+                item_list = json.load(read_file)
+
+                if not isinstance(item_list, list):
+                    item_list = []
+
+        except json.JSONDecodeError:
+            item_list = []
+
+    # Return item dictionary if it exists
+    for item in item_list:
+        if item.get("name", "").lower() == item_name.strip().lower():
+            return item
+
+    return None
+
+
+
 # Helper function that clears the screen
+# TODO: Remove this when I move to frontend development.
 def clear_console():
     os.system("cls")
 
