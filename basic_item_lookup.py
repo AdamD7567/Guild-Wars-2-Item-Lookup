@@ -30,6 +30,7 @@ def lookup_by_name(item_name):
     return True
 
 
+
 # Function that takes in a valid item ID to display item information.
 # Returns the item information for the input ID or an appropriate status code and message if it fails.
 def lookup_by_id(item_id):
@@ -174,7 +175,7 @@ def add_item_to_cache(item_data, file_path="looked_up_items.json"):
     # Appending the new item data
     item_list.append(looked_up_item)
     
-    # Overwriting the file with the updated list
+    # Overwriting the file with the updated list or creating a new file if it does not exist
     with open(file_path, mode="w", encoding="utf-8") as write_file:
         json.dump(item_list, write_file, indent=4)
 
