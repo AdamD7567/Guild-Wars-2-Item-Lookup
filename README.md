@@ -106,7 +106,7 @@ python -m pytest
 
 * Full Guild Wars 2 item-name search is not implemented yet.
 * Name search currently only works for items that have already been looked up and saved in the local JSON cache
-* Some itmes may not be available on the Trading Post
+* Some items may not be available on the Trading Post
 * Favourite item tracking is planned for a future version
 * The project is currently contained in one Python file and may be refactored into separate modules later
 
@@ -120,7 +120,6 @@ python -m pytest
 * Improve error handling with retry logic and logging
 * Refactor the project into separate modules
 * Eventually build a frontend version
-* Improve error handling with retry logic and logging
 
 ## Future Goal
 
