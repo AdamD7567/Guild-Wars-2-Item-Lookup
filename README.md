@@ -70,13 +70,13 @@ One useful concept I learned was how to work with nested JSON. For example, Trad
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/AdamD7567/Guild-Wars-2-Projects.git
+git clone https://github.com/AdamD7567/Guild-Wars-2-Item-Lookup.git
 ```
 
 2. Navigate into the project folder:
 
 ```bash
-cd "Guild-Wars-2-Projects/Basic-Item-Lookup"
+cd Guild-Wars-2-Item-Lookup
 ```
 
 3. Install the required dependency:
